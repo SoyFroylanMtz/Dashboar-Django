@@ -1,0 +1,86 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="d-flex">
+    {% include 'layouts/sidebar.html' %}
+    <div class="w-100">
+        {% include 'layouts/header.html' %}
+        <div class="m-3">
+            <h1>Reportes de abarrotera</h1>
+            <label for="reporte-select">Seleccionar Reporte:</label>
+            <select id="reporte-select" onchange="fetchReportData()">
+                <option value="mas_vendidos">Más Vendidos</option>
+                <option value="menos_vendidos">Menos Vendidos</option>
+            </select>
+            <!-- Aquí es donde se renderizará la tabla de datos -->
+            <table id="productos-reporte" class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Total Vendido</th>
+                    </tr>
+                </thead>
+                <tbody id="reporte-tbody">
+                    {% for producto, total in productos_mas_vendidos %}
+                        <tr>
+                            <td>{{ producto }}</td>
+                            <td>{{ total }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    function fetchReportData() {
+    const select = document.getElementById('reporte-select');
+    const reportType = select.value;
+
+    fetch(`/dashboard/reporte/?tipo=${reportType}`, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        const tbody = document.getElementById('reporte-tbody');
+        tbody.innerHTML = '';
+
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            const nombreCell = document.createElement('td');
+            const totalCell = document.createElement('td');
+
+            nombreCell.textContent = item.nombre;
+            totalCell.textContent = item.total;
+
+            row.appendChild(nombreCell);
+            row.appendChild(totalCell);
+            tbody.appendChild(row);
+        });
+    })
+    .catch(error => {
+        console.error('Error during fetch operation:', error);
+        alert('Error loading data. Please try again later.');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchReportData();  // Cargar datos iniciales
+});
+
+
+
+    
+</script>
+{% endblock scripts %}

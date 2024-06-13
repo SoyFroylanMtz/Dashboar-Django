@@ -1,0 +1,363 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="d-flex">
+    {% include 'layouts/sidebar.html' %}
+    <div class="w-100">
+        {% include 'layouts/header.html' %}
+        <div class="my-3 mx-3">
+            <h3>Tiendas de la Colonia Aquiles Serdán</h3>
+            <!-- Primer piso -->
+            <div class="row">
+                <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-16">
+                                    <div class="numbers">
+                                        <div class="card-block">
+                                            <h6 class="mb-4">Porcentaje de productos sin venta</h6>
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-9 text-right">
+                                                    <h2 id="Porcentaje" class="f-w-300 d-flex align-items-center m-b-0">
+                                                        <i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i>
+                                                        {{ porcentaje_no_vendidos }}%
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            <div class="progress m-t-30" style="height: 7px;">
+                                                <div class="progress-bar progress-c-theme2" role="progressbar"
+                                                    style="width: {{ porcentaje_no_vendidos }}%;" aria-valuenow="{{ porcentaje_no_vendidos }}"
+                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                                        <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-sm- mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <div class="card-block">
+                                            <h6 class="mb-4">Frecuencia de Rotación de Inventario</h6>
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-9 text-right">
+                                                    <h2 class="f-w-300 d-flex align-items-center m-b-0">
+                                                        <i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i>
+                                                        ${{ fri }} ++
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            <div class="progress m-t-30" style="height: 7px;">
+                                                <div class="progress-bar progress-c-theme2" role="progressbar"
+                                                    style="width: 35%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                        <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                                <div class="chart">
+                                    <canvas id="chart-bars" class="chart-canvas" height="212"
+                                        style="display: block; box-sizing: border-box; height: 170px; width: 394.8px;"
+                                        width="500"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0">Margen de Ganancia</h6>
+                            <p class="text-sm">Productos</p>
+                            <hr class="dark horizontal">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mt-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                                <div class="chart">
+                                    <canvas id="chart-line" class="chart-canvas" height="212"
+                                        style="display: block; box-sizing: border-box; height: 330px; width: 394.8px;"
+                                        width="493"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0">Sectores  mas demandados</h6>
+                            <p class="text-sm">Top 3</p>
+                            <hr class="dark horizontal">
+                            <div class="d-flex">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-4 mb-3">
+                    <div class="card z-index-2">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+                                <div class="chart">
+                                    <canvas id="chart-line-tasks" class="chart-canvas" height="212"
+                                        style="display: block; box-sizing: border-box; height: 330px; width: 849.6px;"
+                                        width="1062"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0">Productividad</h6>
+                            <p class="text-sm">En el último trimestre</p>
+                            <hr class="dark horizontal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/index.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Obtener datos desde el contexto de Django de forma segura
+    const labels = JSON.parse('{{ proveedores|safe }}');
+    const data = JSON.parse('{{ margenes|safe }}');
+    
+    console.log(labels);  // Verificar los datos en la consola
+    console.log(data);
+
+    // Configurar el gráfico de pastel
+    const ctx = document.getElementById('chart-bars').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '% Porcentaje',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)', 
+                    'rgba(75, 192, 192, 0.6)', 
+                    'rgba(255, 206, 86, 0.6)', 
+                    'rgba(54, 162, 235, 0.6)', 
+                    'rgba(153, 102, 255, 0.6)', 
+                    'rgba(255, 159, 64, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)', 
+                    'rgba(75, 192, 192, 1)', 
+                    'rgba(255, 206, 86, 1)', 
+                    'rgba(54, 162, 235, 1)', 
+                    'rgba(153, 102, 255, 1)', 
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        let dataset = data.datasets[tooltipItem.datasetIndex];
+                        let total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        let currentValue = dataset.data[tooltipItem.index];
+                        let percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                        return percentage + "%";
+                    }
+                }
+            }
+        }
+    });
+
+    // Otros gráficos
+    const proveedoresTop = JSON.parse('{{ proveedores_top_vendedores|safe }}');
+
+    const labelslines = proveedoresTop.map(item => item[0]);
+    const datalines = proveedoresTop.map(item => item[1]);
+
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+    new Chart(ctx2, {
+        type: "bar",
+        data: {
+            labels: labelslines,
+            datasets: [{
+                label: "Total Vendido",
+                data: datalines,
+                backgroundColor: "rgba(255,105,180,0.8)",
+                borderColor: "rgba(255,105,180,1)",
+                borderWidth: 1,
+                maxBarThickness: 70
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                },
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#000000',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#000000',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+
+    const meses = JSON.parse('{{ meses|safe }}');
+    const totalVentas = JSON.parse('{{ total_ventas|safe }}');
+
+    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+    new Chart(ctx3, {
+        type: "line",
+        data: {
+            labels: meses,
+            datasets: [{
+                label: "Total de Ventas",
+                data: totalVentas,
+                backgroundColor: "rgba(39, 187, 245, 0.8)",
+                borderColor: "rgba(39, 187, 245, 1)",
+                borderWidth: 1,
+                maxBarThickness: 70
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                },
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5],
+                        color: 'rgba(255, 255, 255, .2)'
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#000000',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#000000',
+                        padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+</script>
+
+{% endblock scripts %}
